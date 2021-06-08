@@ -1,4 +1,5 @@
-const {Post} = require('../models');
+const Validator = require('fastest-validator');
+const { Post } = require('../models');
 
 function save(req, res) {
     const post = {
@@ -8,6 +9,23 @@ function save(req, res) {
         categoryId: req.body.category_id,
         userId: 1
     }
+         
+    const schema = {
+        title: { type: "string", optional: false, max: "100" },
+        content: { type: "string", optional: false, max: "500" },
+        categoryId: {type: "number", optional:false}
+    }
+
+    const v = new Validator();
+    const validationResponse =  v.validate(post, schema);
+
+    if (validationResponse !== true) {
+        return res.status(400).json({
+            message: "Validation has failed",
+            errors: validationResponse
+        });
+        }
+    
     Post.create(post).then(result => {
       
             res.status(200).json({
@@ -74,6 +92,22 @@ function update(req, res) {
     }
 
     const userId = 1;
+
+    const schema = {
+        title: { type: "string", optional: false, max: "100" },
+        content: { type: "string", optional: false, max: "500" },
+        categoryId: {type: "number", optional: false}
+    }
+
+    const v = new Validator();
+    const validationResponse = v.validate(updatedPost, schema);
+
+    if (validationResponse !== true) {
+        return res.status(400).json({
+            message: "Validation has failed",
+            errors: validationResponse
+        });
+    }
 
     Post.update(updatedPost, { where: { id: id, userId: userId } }).then(result => {
 
