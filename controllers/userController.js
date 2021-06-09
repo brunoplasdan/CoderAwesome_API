@@ -71,12 +71,13 @@ function login(req, res) {
                     const token = jwt.sign({
                         email: user.email,
                         userId: user.id
-                    }, process.env.JWT_KEY , function (err, token) {
+                    }, process.env.JWT_KEY, function (err, token) {
                         res.status(200).json({
                             message: "Authentication successful!",
                             token: token
-                        });
+                        })
                     });
+                    console.log("TOKEN: ", token);
                 } else {
                     res.status(401).json({
                         message: "Invalid credentials"
