@@ -75,7 +75,7 @@ function login(req, res) {
                         res.status(200).json({
                             message: "Authentication successful!",
                             token: token
-                        })
+                        });
                     });
                 } else {
                     res.status(401).json({
