@@ -8,10 +8,12 @@ const userRoute = require('./routes/user');
 const imageRoute = require('./routes/images');
 
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static('uploads'))
+
 app.use("/posts", postRoute);
 app.use("/user", userRoute);
-app.use("/images", imageRoute)
+app.use("/images", imageRoute);
 
 
 module.exports = app;
